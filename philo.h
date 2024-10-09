@@ -6,7 +6,7 @@
 /*   By: asmae <asmae@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 10:23:57 by asmae             #+#    #+#             */
-/*   Updated: 2024/10/07 18:51:32 by asmae            ###   ########.fr       */
+/*   Updated: 2024/10/09 18:18:58 by asmae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,56 +18,40 @@
 #include <pthread.h>
 #include <sys/time.h>
 
+typedef struct s_args
+{
+	int	nb_philos;
+	int	t_die;
+	int	t_eat;
+	int	t_sleep;
+	int	n_eat;
+	int	check_nb_eat;
+	pthread_mutex_t	print_mutex;
+	pthread_mutex_t mutex_last_eat;
+	pthread_mutex_t	mutex_nb_eat;
+}	t_args;
+
 typedef struct s_philo
 {
-    int id;
-    int t_eaten;
-    long last_meal_time;
-    long start_time;
-    pthread_t thread;
-    pthread_mutex_t *left_fork;
-    pthread_mutex_t *right_fork;
-    struct s_data *data;
-} t_philo;
+	int	id;
+	long	last_eat;
+	long	start_time;
+	int		nb_eat;
+	void	*r_fork;
+	void	*l_fork;
+	int		check;
+	t_args	*arg;
+	
+}	t_philo;
 
-typedef struct s_data
+typedef	struct	s_tab
 {
-    int nb_of_philo;
-    long t_to_die;
-    long time_to_eat;
-    long time_to_sleep;
-    int num_eat;
-    int stop_simulation;
+	t_philo			*philos;
+	pthread_t		*thread;
+	pthread_mutex_t	*forks;
+}	t_tab;
 
-    pthread_mutex_t *forks;
-    pthread_mutex_t print_mutex;
-    pthread_mutex_t stop_mutex;
-    t_philo *philosophers;
-} t_data;
-// const char *colors[] = {
-//     "\033[0;31m", // Red
-//     "\033[0;32m", // Green
-//     "\033[0;33m", // Yellow
-//     "\033[0;34m", // Blue
-//     "\033[0;35m", // Magenta
-//     "\033[0;36m", // Cyan
-//     "\033[0;37m", // White
-//     "\033[0;90m"  // Bright Black
-// };
+int	ft_atoi(char *str);
 
-//utils
-// size_t get_time();
-// int	ft_atoi(char *str);
-
-long ft_time(void);
-int ft_atoi(char *str);
-void ft_sleep(long time);
-void *ft_thread(void *void_philo);
-int ft_check_args(int ac, char **av, t_data *data);
-void ft_create_philos(t_data *data);
-void ft_init_mutex(t_data *data);
-void ft_destroy_mutex(t_data *data);
-void ft_free(t_data *data);
-int ft_died(t_data *data);
 
 #endif
