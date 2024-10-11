@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 NAME = philo
-SRCF = philo.c utils.c
+SRCF = philo.c utils.c utils1.c
 OBJF = $(SRCF:.c=.o)
 
 all : $(NAME)
