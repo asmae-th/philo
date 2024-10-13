@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atahtouh <atahtouh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asmae <asmae@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 10:22:12 by asmae             #+#    #+#             */
-/*   Updated: 2024/10/11 12:00:03 by atahtouh         ###   ########.fr       */
+/*   Updated: 2024/10/13 10:24:24 by asmae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	*ft_routine(void *p)
 
 	philo = (t_philo *)p;
 	if (philo->id % 2 != 0)
-		usleep(2000);
+		usleep(1000);
 	while (!philo->check)
 	{
 		ft_print_log(philo, "is thinking");
@@ -54,9 +54,9 @@ int	ft_died(t_tab *arr, t_args *arg)
 
 	while (1)
 	{
-		i = -1;
+		i = 0;
 		n = 0;
-		while (++i < arg->nb_philos)
+		while (i < arg->nb_philos)
 		{
 			if ((ft_time() - arr->philos[i].last_eat) > arg->t_die)
 			{
@@ -70,9 +70,15 @@ int	ft_died(t_tab *arr, t_args *arg)
 				n += 1;
 			}
 			pthread_mutex_unlock(&arg->print_mutex);
+			i++;
 		}
 		if (n == arg->nb_philos)
+		{
+			// ft_join(arr, arg);
+			usleep(1000);
 			return (1);
+		}
+			
 	}
 }
 
@@ -99,6 +105,7 @@ int	main(int ac, char **av)
 	ft_create(&arr, &arg);
 	if (ft_died(&arr, &arg))
 	{
+		ft_join(&arr, &arg);
 		ft_free(&arr, &arg);
 		return (0);
 	}

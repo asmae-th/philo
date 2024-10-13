@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atahtouh <atahtouh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asmae <asmae@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 11:17:43 by atahtouh          #+#    #+#             */
-/*   Updated: 2024/10/11 11:25:53 by atahtouh         ###   ########.fr       */
+/*   Updated: 2024/10/12 23:05:56 by asmae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,5 @@ void	ft_free(t_tab *arr, t_args *arg)
 	free(arr->forks);
 	free(arr->philos);
 	free(arr->thread);
+	// printf("every thinks is free :::::::::::::::::::::::\n");
 }
