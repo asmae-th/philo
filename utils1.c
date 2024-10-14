@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asmae <asmae@student.42.fr>                +#+  +:+       +#+        */
+/*   By: atahtouh <atahtouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 11:17:43 by atahtouh          #+#    #+#             */
-/*   Updated: 2024/10/12 23:05:56 by asmae            ###   ########.fr       */
+/*   Updated: 2024/10/13 18:56:45 by atahtouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_create(t_tab *arr, t_args *arg)
 		arr->philos[i].id = i + 1;
 		arr->philos[i].start_time = ft_time();
 		arr->philos[i].last_eat = ft_time();
-		pthread_create(&arr->thread[i], NULL, &ft_routine, &arr->philos[i]);
+		pthread_create(&arr->thread[i], NULL, &ft_routine,(void *) &arr->philos[i]);
 		i++;
 	}
 }
@@ -57,6 +57,7 @@ void	ft_destroy(t_tab *arr, t_args *arg)
 	i = 0;
 	while (i < arg->nb_philos)
 	{
+		// printf("iiiiiiiiiiiiiiiiiiiii%d\n",i);
 		pthread_mutex_destroy(&arr->forks[i]);
 		i++;
 	}
@@ -67,9 +68,21 @@ void	ft_destroy(t_tab *arr, t_args *arg)
 
 void	ft_free(t_tab *arr, t_args *arg)
 {
+	// (void)arg;
 	ft_destroy(arr, arg);
-	free(arr->forks);
 	free(arr->philos);
 	free(arr->thread);
-	// printf("every thinks is free :::::::::::::::::::::::\n");
+	free(arr->forks);
+}
+
+void	ft_check_n(t_tab *arr, t_args *arg, int *i, int *n)
+{
+	pthread_mutex_lock(&arg->print_mutex);
+	if (arg->n_eat != -1 && arr->philos[*i].nb_eat >= arg->n_eat)
+	{
+		arr->philos[*i].check = 1;
+		*n += 1;
+	}
+	pthread_mutex_unlock(&arg->print_mutex);
+	(*i)++;
 }

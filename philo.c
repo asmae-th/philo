@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asmae <asmae@student.42.fr>                +#+  +:+       +#+        */
+/*   By: atahtouh <atahtouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 10:22:12 by asmae             #+#    #+#             */
-/*   Updated: 2024/10/13 10:24:24 by asmae            ###   ########.fr       */
+/*   Updated: 2024/10/13 18:56:57 by atahtouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	*ft_routine(void *p)
 		usleep(1000);
 	while (!philo->check)
 	{
-		ft_print_log(philo, "is thinking");
 		pthread_mutex_lock(philo->r_fork);
 		ft_print_log(philo, "has taken a fork");
 		pthread_mutex_lock(philo->l_fork);
@@ -43,6 +42,7 @@ void	*ft_routine(void *p)
 		pthread_mutex_unlock(philo->l_fork);
 		ft_print_log(philo, "is sleeping");
 		usleep(philo->arg->t_sleep * 1000);
+		ft_print_log(philo, "is thinking");
 	}
 	return (NULL);
 }
@@ -63,23 +63,16 @@ int	ft_died(t_tab *arr, t_args *arg)
 				ft_print_die(arr, i);
 				return (1);
 			}
-			pthread_mutex_lock(&arg->print_mutex);
-			if (arg->n_eat != -1 && arr->philos[i].nb_eat >= arg->n_eat)
-			{
-				arr->philos[i].check = 1;
-				n += 1;
-			}
-			pthread_mutex_unlock(&arg->print_mutex);
-			i++;
+			ft_check_n(arr, arg, &i, &n);
+				// printf("philoooo %d\n",arr->philos[i]);
 		}
 		if (n == arg->nb_philos)
 		{
-			// ft_join(arr, arg);
 			usleep(1000);
 			return (1);
 		}
-			
 	}
+	return(0);
 }
 
 void	ft_join(t_tab *arr, t_args *arg)
@@ -92,6 +85,8 @@ void	ft_join(t_tab *arr, t_args *arg)
 		pthread_detach(arr->thread[i]);
 		i++;
 	}
+		// ft_free(arr, arg);
+
 }
 
 int	main(int ac, char **av)
@@ -109,6 +104,7 @@ int	main(int ac, char **av)
 		ft_free(&arr, &arg);
 		return (0);
 	}
+
 	ft_join(&arr, &arg);
 	ft_free(&arr, &arg);
 	return (0);

@@ -1,4 +1,4 @@
-CC = gcc
+CC = gcc #-fsanitize=address -g3
 CFLAGS = -Wall -Wextra -Werror 
 NAME = philo
 SRCF = philo.c utils.c utils1.c
@@ -13,6 +13,6 @@ clean :
 	@rm -rf $(OBJF)
 fclean : clean
 	@rm -rf $(NAME)
-re : clean all*
+re : clean all
 
 .PHONY : all clean fclean re

@@ -6,7 +6,7 @@
 /*   By: atahtouh <atahtouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 10:23:57 by asmae             #+#    #+#             */
-/*   Updated: 2024/10/11 12:00:57 by atahtouh         ###   ########.fr       */
+/*   Updated: 2024/10/13 18:54:21 by atahtouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	ft_free(t_tab *arr, t_args *arg);
 void	ft_print_log(t_philo *philo, char *str);
 void	*ft_routine(void *p);
 int		ft_died(t_tab *arr, t_args *arg);
-void	ft_join(t_tab *arr, t_args *arg);
+// void	ft_join(t_tab *arr, t_args *arg);
+void	ft_check_n(t_tab *arr, t_args *arg, int *i, int *n);
 
 #endif
